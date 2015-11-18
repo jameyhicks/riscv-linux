@@ -120,14 +120,23 @@ static int __init htif_init(void)
 
 		flags = arch_local_irq_save();
 
+#if 0
 		request.dev = i;
 		request.cmd = HTIF_CMD_IDENTIFY;
 		request.data = (__pa(id) << 8) | 0xFF;
 		htif_tohost(&request);
 		response = htif_fromhost();
 		WARN_ON(&request != response);
+#endif
 
 		arch_local_irq_restore(flags);
+
+                if (i == 0) {
+		    continue;
+		} else if (i == 1) {
+                    strncpy(id, "bcd", 4);
+                } else
+		    break;
 
 		len = strnlen(id, sizeof(id));
 		if (len <= 0)
