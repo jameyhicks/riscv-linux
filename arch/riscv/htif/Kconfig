@@ -1,6 +1,5 @@
 menuconfig HTIF
 	bool "HTIF"
-	depends on 64BIT
 	default y
 	help
 	  Host-Target Interface
@@ -19,11 +18,13 @@ config HTIF_CONSOLE_PORTS
 
 config HTIF_BLOCK
 	tristate "HTIF block device support"
+	depends on 64BIT
 	select BLOCK
 	default y
 
 config HTIF_RFB
 	tristate "HTIF remote framebuffer support"
+	depends on 64BIT
 	select FB
 	select FB_CFB_FILLRECT
 	select FB_CFB_COPYAREA
