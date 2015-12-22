@@ -29,6 +29,9 @@ static void riscv_irq_mask(struct irq_data *d)
 	case IRQ_SOFTWARE: 
 		csr_clear(sie, SIE_SSIE);
 		break;
+	case IRQ_EXTERNAL:
+		csr_clear(sie, SIE_SXIE);
+		break;
 	default:
 		BUG();
 	}
@@ -42,6 +45,9 @@ static void riscv_irq_unmask(struct irq_data *d)
 		break;
 	case IRQ_SOFTWARE: 
 		csr_set(sie, SIE_SSIE);
+		break;
+	case IRQ_EXTERNAL:
+		csr_set(sie, SIE_SXIE);
 		break;
 	default:
 		BUG();
