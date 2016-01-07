@@ -265,6 +265,7 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
 static inline void update_mmu_cache(struct vm_area_struct *vma,
 	unsigned long address, pte_t *ptep)
 {
+	__asm__ __volatile__ ("sfence.vm %0" : : "r" (address) );
 }
 
 /*
