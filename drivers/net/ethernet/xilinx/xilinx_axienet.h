@@ -467,6 +467,11 @@ struct axienet_option {
 	u32 m_or;
 };
 
+#ifdef CONFIG_RISCV
+#define in_be32(addr) ioread32be(addr)
+#define out_be32(addr,value) iowrite32be(value,addr)
+#endif
+
 /**
  * axienet_ior - Memory mapped Axi Ethernet register read
  * @lp:         Pointer to axienet local structure
