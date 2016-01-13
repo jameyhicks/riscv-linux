@@ -1,0 +1,32 @@
+/*
+ *  Copyright (C) 2016 Jamey Hicks
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+/dts-v1/;
+/ {
+	compatible = "riscv,spike";
+
+		eth0: ethernet@04200000 {
+			compatible = "xlnx,axi-ethernet-1.00.a";
+			reg = <0x04100000 0x1000>;
+			status = "ok";
+			interrupts = <0 45 4>;
+			//clocks = <&clkc 31>, <&clkc 31>, <&clkc 14>;
+			clock-names = "pclk", "hclk", "tx_clk";
+
+			local-mac-address = [ 00 0a 35 02 3d 7f ];
+
+			//axistream-connected = <&axi_dma0>;
+
+			#address-cells = <1>;
+			#size-cells = <0>;
+		};
+};
