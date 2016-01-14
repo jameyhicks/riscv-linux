@@ -14,19 +14,50 @@
 / {
 	compatible = "riscv,spike";
 
-		eth0: ethernet@04200000 {
-			compatible = "xlnx,axi-ethernet-1.00.a";
-			reg = <0x04100000 0x1000>;
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	bus0: axislave@0x0400000 {
+		compatible = "simple-bus";
+		ranges; /*  = <0 0 0x08000000 0x08000000>;*/
+ 	        #interrupt-cells = <3>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		intc0: interrupt-controller@0x0400000 {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			#interrupt-cells = <3>;
+			compatible = "riscv,intc-1.00.a";
+			reg = <0x04180000 0x4000>;
+			interrupt-controller;
+		};
+
+		dma0: axidma@0x0410000 {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			#interrupt-cells = <3>;
+			compatible = "xlnx,axi-dma-1.00.a";
+			reg = <0x04100000 0x4000>;
 			status = "ok";
-			interrupts = <0 45 4>;
+			interrupt-parent = <&intc0>;
+			interrupts = <1 16 4>;
+		};
+
+		eth0: ethernet@0410000 {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			#interrupt-cells = <3>;
+			compatible = "xlnx,axi-ethernet-1.00.a";
+			reg = <0x04140000 0x4000>;
+			status = "ok";
+			interrupt-parent = <&intc0>;
+			interrupts = <1 17 4>;
 			//clocks = <&clkc 31>, <&clkc 31>, <&clkc 14>;
 			clock-names = "pclk", "hclk", "tx_clk";
-
+			axistream-connected = <&dma0>;
 			local-mac-address = [ 00 0a 35 02 3d 7f ];
 
-			//axistream-connected = <&axi_dma0>;
-
-			#address-cells = <1>;
-			#size-cells = <0>;
 		};
+	};
 };
