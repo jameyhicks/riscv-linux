@@ -28,7 +28,9 @@
 			#address-cells = <1>;
 			#size-cells = <1>;
 			#interrupt-cells = <3>;
-			compatible = "riscv,intc-1.00.a";
+			compatible = "riscv,xps-intc-1.00.a";
+			xlnx,num-intr-inputs = <2>;
+			xlnx-kind-of-intr = <0>;
 			reg = <0x04180000 0x4000>;
 			interrupt-controller;
 		};
