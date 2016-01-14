@@ -26,6 +26,7 @@ config RISCV
 	select HAVE_ARCH_TRACEHOOK
 	select OF
 	select OF_EARLY_FLATTREE
+	select ARM_AMBA
 
 config MMU
 	def_bool y
