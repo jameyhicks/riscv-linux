@@ -27,6 +27,7 @@ config RISCV
 	select OF
 	select OF_EARLY_FLATTREE
 	select ARM_AMBA
+	select XILINX_INTC
 
 config MMU
 	def_bool y
