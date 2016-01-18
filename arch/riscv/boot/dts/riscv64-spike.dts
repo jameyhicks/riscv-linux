@@ -17,6 +17,11 @@
 	#address-cells = <1>;
 	#size-cells = <1>;
 
+	cpu0: cpu {
+	      compatible = "cpu";
+	      clock-frequency = <250000000>;
+	};
+
 	bus0: axislave@0x0420000 {
 		compatible = "simple-bus";
 		ranges; /*  = <0 0 0x08000000 0x08000000>;*/
