@@ -65,7 +65,7 @@
 			clock-names = "pclk", "hclk", "tx_clk";
 			axistream-connected = <&dma0>;
 			local-mac-address = [ 00 0a 35 02 3d 7f ];
-
+			xlnx,phy-type = <5>;
 		};
 	};
 };
