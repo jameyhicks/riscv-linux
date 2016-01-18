@@ -468,8 +468,9 @@ struct axienet_option {
 };
 
 #ifdef CONFIG_RISCV
-#define in_be32(addr) ioread32be(addr)
-#define out_be32(addr,value) iowrite32be(value,addr)
+// RISC-V is little endian
+#define in_be32(addr) ioread32(addr)
+#define out_be32(addr,value) iowrite32(value,addr)
 #endif
 
 /**
