@@ -24,37 +24,38 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 
-		intc0: interrupt-controller@0x0400000 {
+		intc0: axiintc@0x0400000 {
 			#address-cells = <1>;
 			#size-cells = <1>;
-			#interrupt-cells = <3>;
-			compatible = "riscv,xps-intc-1.00.a";
-			xlnx,num-intr-inputs = <2>;
-			xlnx-kind-of-intr = <0>;
+			#interrupt-cells = <1>;
+			compatible = "xlnx,xps-intc-1.00.a";
+			xlnx,num-intr-inputs = <4>;
+			xlnx,kind-of-intr = <0>;
 			reg = <0x04180000 0x4000>;
 			interrupt-controller;
+			interrupt-parent = <&intc0>; // root interrupt-controller is its own parent
 		};
 
 		dma0: axidma@0x0410000 {
 			#address-cells = <1>;
 			#size-cells = <1>;
-			#interrupt-cells = <3>;
+			#interrupt-cells = <1>;
 			compatible = "xlnx,axi-dma-1.00.a";
 			reg = <0x04100000 0x4000>;
 			status = "ok";
 			interrupt-parent = <&intc0>;
-			interrupts = <1 16 4>;
+			interrupts = <2>, <3>;
 		};
 
 		eth0: ethernet@0410000 {
 			#address-cells = <1>;
 			#size-cells = <1>;
-			#interrupt-cells = <3>;
+			#interrupt-cells = <1>;
 			compatible = "xlnx,axi-ethernet-1.00.a";
 			reg = <0x04140000 0x4000>;
 			status = "ok";
 			interrupt-parent = <&intc0>;
-			interrupts = <1 17 4>;
+			interrupts = <0>, <1>;
 			//clocks = <&clkc 31>, <&clkc 31>, <&clkc 14>;
 			clock-names = "pclk", "hclk", "tx_clk";
 			axistream-connected = <&dma0>;
