@@ -29,35 +29,35 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 
-		intc0: axiintc@0x0420000 {
+		intc0: axiintc {
 			#address-cells = <1>;
 			#size-cells = <1>;
 			#interrupt-cells = <1>;
 			compatible = "xlnx,xps-intc-1.00.a";
 			xlnx,num-intr-inputs = <4>;
 			xlnx,kind-of-intr = <0>;
-			reg = <0x04280000 0x4000>;
+			reg = <0x04200000 0x4000>;
 			interrupt-controller;
 			interrupt-parent = <&intc0>; // root interrupt-controller is its own parent
 		};
 
-		dma0: axidma@0x0420000 {
+		dma0: axidma {
 			#address-cells = <1>;
 			#size-cells = <1>;
 			#interrupt-cells = <1>;
 			compatible = "xlnx,axi-dma-1.00.a";
-			reg = <0x04200000 0x4000>;
+			reg = <0x04240000 0x4000>;
 			status = "ok";
 			interrupt-parent = <&intc0>;
 			interrupts = <2>, <3>; // TX, RX
 		};
 
-		eth0: ethernet@0420000 {
+		eth0: axieth {
 			#address-cells = <1>;
 			#size-cells = <1>;
 			#interrupt-cells = <1>;
 			compatible = "xlnx,axi-ethernet-1.00.a";
-			reg = <0x04240000 0x4000>;
+			reg = <0x04280000 0x4000>;
 			status = "ok";
 			interrupt-parent = <&intc0>;
 			interrupts = <0>, <1>; // Subsystem, MAC
