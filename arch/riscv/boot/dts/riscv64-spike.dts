@@ -29,6 +29,29 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 
+		cfiflash0: cfiflashnode {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			compatible = "cfi-flash";
+			reg = <0x08000000 0x04000000>;
+			linux,mtd-name = "bpiflash";
+			linux,part-probe = "ofpart";
+			bank-width = <2>;
+			no-unaligned-direct-access = <1>;
+			vmlinuxpart {
+				#address-cells = <1>;
+				#size-cells = <1>;
+				reg = <0x00000000 0x00400000>;
+				label = "vmlinux";
+			};
+			fspart {
+				#address-cells = <1>;
+				#size-cells = <1>;
+				reg = <0x00400000 0x03c00000>;
+				label = "root";
+			};
+		};
+
 		intc0: axiintc {
 			#address-cells = <1>;
 			#size-cells = <1>;
