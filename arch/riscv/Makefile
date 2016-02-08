@@ -64,3 +64,18 @@ libs-y += arch/riscv/lib/
 drivers-$(CONFIG_HTIF) += arch/riscv/htif/
 
 all: vmlinux
+
+boot := arch/riscv/boot
+
+# Build the DT binary blobs if we have OF configured
+ifeq ($(CONFIG_USE_OF),y)
+KBUILD_DTBS := dtbs
+endif
+
+PHONY += dtbs dtbs_install
+
+dtbs: prepare scripts
+	$(Q)$(MAKE) $(build)=$(boot)/dts
+
+dtbs_install:
+	$(Q)$(MAKE) $(dtbinst)=$(boot)/dts

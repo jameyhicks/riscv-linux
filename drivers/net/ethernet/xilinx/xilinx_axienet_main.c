@@ -157,7 +157,7 @@ static void axienet_dma_bd_release(struct net_device *ndev)
 	for (i = 0; i < RX_BD_NUM; i++) {
 		dma_unmap_single(ndev->dev.parent, lp->rx_bd_v[i].phys,
 				 lp->max_frm_size, DMA_FROM_DEVICE);
-		dev_kfree_skb((struct sk_buff *)
+		dev_kfree_skb((struct sk_buff *)(unsigned long)
 			      (lp->rx_bd_v[i].sw_id_offset));
 	}
 
@@ -228,7 +228,7 @@ static int axienet_dma_bd_init(struct net_device *ndev)
 		if (!skb)
 			goto out;
 
-		lp->rx_bd_v[i].sw_id_offset = (u32) skb;
+		lp->rx_bd_v[i].sw_id_offset = (u32) (unsigned long)skb;
 		lp->rx_bd_v[i].phys = dma_map_single(ndev->dev.parent,
 						     skb->data,
 						     lp->max_frm_size,
@@ -590,7 +590,7 @@ static void axienet_start_xmit_done(struct net_device *ndev)
 				(cur_p->cntrl & XAXIDMA_BD_CTRL_LENGTH_MASK),
 				DMA_TO_DEVICE);
 		if (cur_p->app4)
-			dev_kfree_skb_irq((struct sk_buff *)cur_p->app4);
+			dev_kfree_skb_irq((struct sk_buff *)(unsigned long)cur_p->app4);
 		/*cur_p->phys = 0;*/
 		cur_p->app0 = 0;
 		cur_p->app1 = 0;
@@ -735,7 +735,7 @@ static void axienet_recv(struct net_device *ndev)
 	cur_p = &lp->rx_bd_v[lp->rx_bd_ci];
 
 	while ((cur_p->status & XAXIDMA_BD_STS_COMPLETE_MASK)) {
-		skb = (struct sk_buff *) (cur_p->sw_id_offset);
+		skb = (struct sk_buff *)(unsigned long)(cur_p->sw_id_offset);
 		length = cur_p->app4 & 0x0000FFFF;
 
 		dma_unmap_single(ndev->dev.parent, cur_p->phys,
@@ -776,7 +776,7 @@ static void axienet_recv(struct net_device *ndev)
 					     DMA_FROM_DEVICE);
 		cur_p->cntrl = lp->max_frm_size;
 		cur_p->status = 0;
-		cur_p->sw_id_offset = (u32) new_skb;
+		cur_p->sw_id_offset = (u32) (unsigned long)new_skb;
 
 		++lp->rx_bd_ci;
 		lp->rx_bd_ci %= RX_BD_NUM;
@@ -1372,7 +1372,7 @@ static void axienet_dma_err_handler(unsigned long data)
 					  XAXIDMA_BD_CTRL_LENGTH_MASK),
 					 DMA_TO_DEVICE);
 		if (cur_p->app4)
-			dev_kfree_skb_irq((struct sk_buff *) cur_p->app4);
+			dev_kfree_skb_irq((struct sk_buff *)(unsigned long) cur_p->app4);
 		cur_p->phys = 0;
 		cur_p->cntrl = 0;
 		cur_p->status = 0;

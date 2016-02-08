@@ -154,6 +154,7 @@
 #define XAE_FCC_OFFSET		0x0000040C /* Flow Control Configuration */
 #define XAE_EMMC_OFFSET		0x00000410 /* EMAC mode configuration */
 #define XAE_PHYC_OFFSET		0x00000414 /* RGMII/SGMII configuration */
+#define XAE_ID_OFFSET		0x000004f8 /* Identification register */
 #define XAE_MDIO_MC_OFFSET	0x00000500 /* MII Management Config */
 #define XAE_MDIO_MCR_OFFSET	0x00000504 /* MII Management Control */
 #define XAE_MDIO_MWD_OFFSET	0x00000508 /* MII Management Write Data */
@@ -466,6 +467,12 @@ struct axienet_option {
 	u32 reg;
 	u32 m_or;
 };
+
+#ifdef CONFIG_RISCV
+// RISC-V is little endian
+#define in_be32(addr) ioread32(addr)
+#define out_be32(addr,value) iowrite32(value,addr)
+#endif
 
 /**
  * axienet_ior - Memory mapped Axi Ethernet register read

@@ -15,18 +15,30 @@ config RISCV
 	select GENERIC_STRNLEN_USER
 	select GENERIC_SMP_IDLE_THREAD
 	select GENERIC_ATOMIC64 if !64BIT || !RV_ATOMIC
+	select HAVE_DMA_ATTRS
 	select HAVE_MEMBLOCK
 	select HAVE_MEMBLOCK_NODE_MAP
+	select HAS_DMA
+	select IRQ_DOMAIN
 	select RV_ATOMIC if SMP
 	select RV_SYSRISCV_ATOMIC if !RV_ATOMIC
 	select SYSCTL_EXCEPTION_TRACE
 	select HAVE_ARCH_TRACEHOOK
+	select OF
+	select OF_EARLY_FLATTREE
+	select ARM_AMBA
+	select XILINX_INTC
 
 config MMU
 	def_bool y
 
+config NEED_SG_DMA_LENGTH
+	def_bool n
+	help
+	  Seems to be needed for IOMMU
+
 config NO_DMA
-	def_bool y
+	def_bool n
 
 config STACKTRACE_SUPPORT
 	def_bool y
@@ -145,6 +157,12 @@ config 64BIT
 	  Select this option to build a 64-bit kernel.
 
 endchoice
+
+config NR_IRQS
+	int "Number of IRQs"
+	default "2"
+	help
+	  Maximum number of IRQs
 
 source "mm/Kconfig"
 
