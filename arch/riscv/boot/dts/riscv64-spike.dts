@@ -22,6 +22,16 @@
 	      clock-frequency = <250000000>;
 	};
 
+	intc0: cpuintc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		#interrupt-cells = <1>;
+		compatible = "riscv,intc-1.00.a";
+		interrupt-controller;
+		interrupt-parent = <&intc0>; // root interrupt-controller is its own parent
+		reg = <3>;
+	};
+
 	bus0: axislave@0x0420000 {
 		compatible = "simple-bus";
 		ranges; /*  = <0 0 0x08000000 0x08000000>;*/
@@ -52,7 +62,7 @@
 			};
 		};
 
-		intc0: axiintc {
+		intc1: axiintc {
 			#address-cells = <1>;
 			#size-cells = <1>;
 			#interrupt-cells = <1>;
@@ -61,7 +71,7 @@
 			xlnx,kind-of-intr = <0>;
 			reg = <0x04200000 0x4000>;
 			interrupt-controller;
-			interrupt-parent = <&intc0>; // root interrupt-controller is its own parent
+			interrupt-parent = <&intc0>;
 		};
 
 		dma0: axidma {
@@ -71,7 +81,7 @@
 			compatible = "xlnx,axi-dma-1.00.a";
 			reg = <0x04240000 0x4000>;
 			status = "ok";
-			interrupt-parent = <&intc0>;
+			interrupt-parent = <&intc1>;
 			interrupts = <2>, <3>; // TX, RX
 		};
 
@@ -82,7 +92,7 @@
 			compatible = "xlnx,axi-ethernet-1.00.a";
 			reg = <0x04280000 0x4000>;
 			status = "ok";
-			interrupt-parent = <&intc0>;
+			interrupt-parent = <&intc1>;
 			interrupts = <0>, <1>; // Subsystem, MAC
 			//clocks = <&clkc 31>, <&clkc 31>, <&clkc 14>;
 			clock-names = "pclk", "hclk", "tx_clk";
