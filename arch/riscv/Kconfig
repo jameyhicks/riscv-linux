@@ -139,6 +139,11 @@ config RV_SYSRISCV_ATOMIC
 
 	  If CONFIG_RV_ATOMIC is unset, this option is mandatory.
 
+config RV_L1_CACHE_SHIFT
+	int
+	default "6" if CPU_RV_ROCKET
+	default "5" if CPU_RV_BLUESPEC || CPU_RV_GENERIC
+
 source "arch/riscv/htif/Kconfig"
 
 endmenu
