@@ -2,6 +2,7 @@
 #include <linux/clockchips.h>
 #include <linux/interrupt.h>
 #include <linux/irq.h>
+#include <linux/irqdomain.h>
 
 #include <asm/irq.h>
 #include <asm/csr.h>
@@ -82,7 +83,10 @@ void __init init_clockevent(void)
 
 void __init time_init(void)
 {
-	clocksource_register_hz(&riscv_clocksource, sbi_timebase());
-	setup_irq(IRQ_TIMER, &timer_irq);
-	init_clockevent();
+        unsigned int irq;
+
+        clocksource_register_hz(&riscv_clocksource, sbi_timebase());
+        irq = irq_create_mapping(NULL, IRQ_TIMER);
+        setup_irq(irq, &timer_irq);
+        init_clockevent();
 }

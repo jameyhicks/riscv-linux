@@ -24,7 +24,7 @@
 
 	intc0: cpuintc {
 	       #interrupt-cells = <1>;
-	       compatible = "riscv,intc-1.00.a";
+	       compatible = "riscv,irq";
 	       interrupt-controller;
 	       interrupt-parent = <&intc0>; // root interrupt-controller is its own parent
 	};
