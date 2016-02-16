@@ -1,12 +1,6 @@
 #ifndef _ASM_RISCV_SERIAL_H
 #define _ASM_RISCV_SERIAL_H
 
-#ifdef CONFIG_CPU_RV_BLUESPEC
-
-#define BASE_BAUD ( 10000000 / 16 )
-
-#else /* CONFIG_CPU_RV_BLUESPEC */
-
 /*
  * FIXME: interim serial support for riscv-qemu
  *
@@ -24,6 +18,8 @@
 #define STD_COM_FLAGS (ASYNC_BOOT_AUTOCONF | ASYNC_SKIP_TEST)
 #endif
 
+#ifdef CONFIG_RV_QEMU_SERIAL
+
 #define SERIAL_PORT_DFNS 			\
 	{	/* ttyS0 */			\
 		.baud_base = BASE_BAUD,		\
@@ -32,6 +28,6 @@
 		.flags     = STD_COM_FLAGS,	\
 	},
 
-#endif /* CONFIG_CPU_RV_BLUESPEC */
+#endif
 
 #endif /* _ASM_RISCV_SERIAL_H */

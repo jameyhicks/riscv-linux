@@ -144,6 +144,10 @@ config RV_L1_CACHE_SHIFT
 	default "6" if CPU_RV_ROCKET
 	default "5" if CPU_RV_BLUESPEC || CPU_RV_GENERIC
 
+config RV_QEMU_SERIAL
+	bool "Interim serial support for riscv-qemu"
+	default n
+
 source "arch/riscv/htif/Kconfig"
 
 endmenu
