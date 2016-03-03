@@ -185,6 +185,7 @@ static int __init xilinx_intc_of_init(struct device_node *node,
 	u32 irq;
 	int ret;
 	struct intc *intc;
+	u32 default_domain = 0;
 
 	intc = kzalloc(sizeof(struct intc), GFP_KERNEL);
 	if (!intc)
@@ -242,7 +243,9 @@ static int __init xilinx_intc_of_init(struct device_node *node,
 
 	intc->domain = irq_domain_add_linear(node, intc->nr_irq,
 				&xintc_irq_domain_ops, intc);
-	irq_set_default_host(intc->domain);
+	ret = of_property_read_u32(node, "xlnx,default_domain", &default_domain);
+	if (ret == 0 && default_domain)
+		irq_set_default_host(intc->domain);
 
 	/*
 	 * Check if this interrupt controller is a chained interrupt controller
