@@ -4,6 +4,8 @@
 #include <linux/irq.h>
 #include <linux/irqdomain.h>
 #include <linux/of.h>
+#include "../../../drivers/irqchip/irqchip.h"
+#include <linux/linkage.h>
 
 #include <asm/ptrace.h>
 #include <asm/sbi.h>
@@ -75,11 +77,12 @@ static struct irq_domain_ops riscv_irq_domain_ops = {
 
 void __init init_IRQ(void)
 {
-	riscv_irq_domain = irq_domain_add_linear(NULL, CONFIG_NR_IRQS,
+	riscv_irq_domain = irq_domain_add_linear(NULL, 5,
 						 &riscv_irq_domain_ops, NULL);
 	if (!riscv_irq_domain)
 		panic("Unable to add RISC-V IRQ domain\n");
 	irq_set_default_host(riscv_irq_domain);
+
 }
 
 static int __init riscv_irq_of_init(struct device_node *np,
@@ -91,5 +94,5 @@ static int __init riscv_irq_of_init(struct device_node *np,
 
 	return riscv_irq_domain ? 0 : -ENODEV;
 }
-//IRQCHIP_DECLARE(riscv, "riscv,irq", riscv_irq_of_init);
-OF_DECLARE_2(irqchip, riscv, "riscv,irq", riscv_irq_of_init);
+
+IRQCHIP_DECLARE(riscv, "riscv,irq", riscv_irq_of_init);
