@@ -126,7 +126,7 @@ static unsigned int get_irq(struct intc *local_intc)
 	unsigned int hwirq, irq = -1;
 
 	hwirq = local_intc->read_fn(local_intc->baseaddr + IVR);
-	if (hwirq != 0xFFFFFFFu)
+	if (hwirq != ~(unsigned int)0)
 		irq = irq_find_mapping(local_intc->domain, hwirq);
 
 	pr_debug("get_irq: hwirq=%d, irq=%d\n", hwirq, irq);
